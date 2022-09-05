@@ -1,6 +1,10 @@
 import { createElement } from '../render';
+import dayjs from 'dayjs';
 
-const createEditFormTemplate = () => (`
+const createEditFormTemplate = (point, destination) => {
+  const { dateFrom, dateTo, basePrice, type, offer} = point;
+  const { name, description} = destination;
+  return (`
 <form class="event event--edit" action="#" method="post">
 <header class="event__header">
   <div class="event__type-wrapper">
@@ -76,10 +80,10 @@ const createEditFormTemplate = () => (`
 
   <div class="event__field-group  event__field-group--time">
     <label class="visually-hidden" for="event-start-time-1">From</label>
-    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="18/03/19 12:25">
+    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value="${dayjs(dateFrom).format('DD/MM/YY HH:mm')}">
     —
     <label class="visually-hidden" for="event-end-time-1">To</label>
-    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="18/03/19 13:35">
+    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value="${dayjs(dateTo).format('DD/MM/YY HH:mm')}">
   </div>
 
   <div class="event__field-group  event__field-group--price">
@@ -150,15 +154,21 @@ const createEditFormTemplate = () => (`
 
   <section class="event__section  event__section--destination">
     <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-    <p class="event__destination-description">Chamonix-Mont-Blanc (usually shortened to Chamonix) is a resort area near the junction of France, Switzerland and Italy. At the base of Mont Blanc, the highest summit in the Alps, it's renowned for its skiing.</p>
+    <p class="event__destination-description">${description}</p>
   </section>
 </section>
 </form>
 `);
+};
 
 export default class EditFormView {
+  constructor(point, destination) {
+    this.point = point;
+    this.destination = destination;
+  }
+
   getTemplate() {
-    return createEditFormTemplate();
+    return createEditFormTemplate(this.point, this.destination);
   }
 
   getElement() {

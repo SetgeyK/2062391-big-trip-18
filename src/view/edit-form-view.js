@@ -2,8 +2,8 @@ import { createElement } from '../render';
 import dayjs from 'dayjs';
 
 const createEditFormTemplate = (point, destination) => {
-  const { dateFrom, dateTo, basePrice, type, offer} = point;
-  const { name, description} = destination;
+  const { dateFrom, dateTo} = point;
+  const { description} = destination;
   return (`
 <form class="event event--edit" action="#" method="post">
 <header class="event__header">
